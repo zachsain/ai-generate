@@ -1,25 +1,26 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { useRef, useState } from 'react';
-import { Toaster, toast } from 'react-hot-toast';
-import DropDown, { VibeType } from '../components/DropDown';
-import Footer from '../components/Footer';
-import Github from '../components/GitHub';
-import Header from '../components/Header';
-import { useChat } from 'ai/react';
+import Image from "next/image";
+import { useRef, useState } from "react";
+import { Toaster, toast } from "react-hot-toast";
+import DropDown, { VibeType } from "../components/DropDown";
+import Footer from "../components/Footer";
+import Github from "../components/GitHub";
+import Header from "../components/Header";
+import { useChat } from "ai/react";
 
 export default function Page() {
-  const [bio, setBio] = useState('');
-  const [vibe, setVibe] = useState<VibeType>('Professional')
-  const [content, setContent] = useState('');
-  const bioRef = useRef<null | HTMLDivElement>(null);
-  const [showTextBox, setShowTextBox] = useState<boolean>(false)
-  const [formDescription, setFormDescription] = useState("")
+  const [userInput, setuserInput] = useState("");
+  const [vibe, setVibe] = useState<VibeType>("Professional");
+  const [placeholder, setPlaceHolder] = useState("")
+  const [content, setContent] = useState("");
+  const userInputRef = useRef<null | HTMLDivElement>(null);
+  const [showTextBox, setShowTextBox] = useState<boolean>(false);
+  const [formDescription, setFormDescription] = useState("");
 
-  const scrollToBios = () => {
-    if (bioRef.current !== null) {
-      bioRef.current.scrollIntoView({ behavior: 'smooth' });
+  const scrollTouserInputs = () => {
+    if (userInputRef.current !== null) {
+      userInputRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -27,185 +28,205 @@ export default function Page() {
     useChat({
       body: {
         vibe,
-        bio,
+        userInput,
       },
       onResponse() {
-        scrollToBios();
+        scrollTouserInputs();
       },
     });
 
   const onSubmit = (e: any) => {
-    setBio(input);
+    setuserInput(input);
     handleSubmit(e);
   };
 
   const lastMessage = messages[messages.length - 1];
-  const generatedBios = lastMessage?.role === "assistant" ? lastMessage.content : null;
+  const generateduserInputs =
+    lastMessage?.role === "assistant" ? lastMessage.content : null;
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-    let formType = e.currentTarget.value
+    let formType = e.currentTarget.value;
     console.log(formType);
-    if (formType === "ig"){
-      setFormDescription("Write a few words about your instagram content...")
+    if (formType === "ig") {
+      setFormDescription("Write a short description about your post, personality, and the caption style...");
+      setPlaceHolder("A photo of me chilling in the pool on raft, drinking a beer, big smile on my face. Make the caption funny and clever")
+      setContent("");
     } else if (formType === "lyrics") {
-      setFormDescription("Write a few words about what your song is about")
+      setFormDescription("Write a short description about your song, define your genre and style");
+      setPlaceHolder("This song is about a how a breakup with a girl I truly loved. Genre is hip-hop. My style is like Drake")
+      setContent("")
+
     } else {
-      setFormDescription("Write a few words about what your poem is about")
+      setFormDescription("Write a short description about your business, profession or idea. Include details about personality, and the style of pitch");
+      setPlaceHolder("I am software developer trying to network with other developers to build a market place app. I'm a laid back person. The style of my pitch should be captivating")
+      setContent("")
     }
+    setShowTextBox(true);
   }
 
   return (
     <div className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
       <Header />
       <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4">
-        <h1 className="sm:text-6xl text-4xl max-w-[708px] font-bold text-slate-900">
-         Use AI to help you with the following:
-        </h1>
+  
+        {!showTextBox && (
+        <div className="flex flex-1 w-full flex-col items-center justify-center text-center px-4">
+          <h1 className="sm:text-6xl text-4xl max-w-[708px] font-bold text-slate-900">
+            Use AI to help you with the following:
+          </h1>
+        
 
         <div className="flex mt-20">
-        <div
-          className="group rounded-lg mr-4 border-2 px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-        >
-          <button value="ig" onClick={handleClick} className={`mb-3 text-2xl font-semibold`}>
-            Instagram Caption{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </button>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Use our AI to help you come up with a great Instagram caption
-          </p>
-        </div>
-
-        <div
-          className="group rounded-lg mr-4 border-2 px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-        >
-          <button value="lyrics" onClick={handleClick} className={`mb-3 text-2xl font-semibold`}>
-            Write song lyrics{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </button>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Use our AI to help write great song lyrics that captivate your fans
-          </p>
-        </div>
-
-        <div
-          className="group rounded-lg border-2 px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-        >
-          <button value="Poems" onClick={handleClick} className={`mb-3 text-2xl font-semibold`}>
-            Poems{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </button>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Use our API to help you write the perfect poem for you...
-          </p>
-        </div>
-        </div>
-        
-        {showTextBox &&
-        <div>
-        <form className="max-w-xl w-full" onSubmit={onSubmit}>
-          <div className="flex mt-10 items-center space-x-3">
-            <Image
-              src="/1-black.png"
-              width={30}
-              height={30}
-              alt="1 icon"
-              className="mb-5 sm:mb-0"
-            />
-            <p className="text-left font-medium">
-              {formDescription}
-              <span className="text-slate-500">
-                (or write a few sentences about yourself)
+          <div className="group rounded-lg mr-4 border-2 px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30">
+            <button
+              value="ig"
+              onClick={handleClick}
+              className={`mb-3 text-2xl font-semibold`}
+            >
+              Instagram Caption{" "}
+              <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                -&gt;
               </span>
-              .
+            </button>
+            <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
+              Use AI to write a great Instagram caption that captivates your followers
             </p>
           </div>
 
-          <textarea
-            value={input}
-            onChange={handleInputChange}
-            rows={4}
-            className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
-            placeholder={
-              ''
-            }
-          />
-          <div className="flex mb-5 items-center space-x-3">
-            <Image src="/2-black.png" width={30} height={30} alt="1 icon" />
-            <p className="text-left font-medium">Select your vibe.</p>
-          </div>
-          <div className="block">
-            <DropDown vibe={vibe} setVibe={(newVibe) => setVibe(newVibe)} />
-          </div>
-
-          {!isLoading && (
+          <div className="group rounded-lg mr-4 border-2 px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
             <button
-              className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
-              type="submit"
+              value="lyrics"
+              onClick={handleClick}
+              className={`mb-3 text-2xl font-semibold`}
             >
-              Generate &rarr;
-            </button>
-          )}
-          {isLoading && (
-            <button
-              className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
-              disabled
-            >
-              <span className="loading">
-                <span style={{ backgroundColor: 'white' }} />
-                <span style={{ backgroundColor: 'white' }} />
-                <span style={{ backgroundColor: 'white' }} />
+              Song Lyrics{" "}
+              <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                -&gt;
               </span>
             </button>
-          )}
-        </form>
-        <Toaster
-          position="top-center"
-          reverseOrder={false}
-          toastOptions={{ duration: 2000 }}
-        />
-        <hr className="h-px bg-gray-700 border-1 dark:bg-gray-700" />
-        <output className="space-y-10 my-10">
-          {generatedBios && (
-            <>
-              <div>
-                <h2
-                  className="sm:text-4xl text-3xl font-bold text-slate-900 mx-auto"
-                  ref={bioRef}
+            <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
+              Use AI to help clear writers block and discover great lyrics
+            </p>
+          </div>
+
+          <div className="group rounded-lg border-2 px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
+            <button
+              value="twitter"
+              onClick={handleClick}
+              className={`mb-3 text-2xl font-semibold`}
+            >
+              Elevator Pitch{" "}
+              <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                -&gt;
+              </span>
+            </button>
+            <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
+              Use AI to help you craft the pefrect elevator pitch for your business or brand 
+            </p>
+          </div>
+          </div>
+        </div>)}
+      
+
+        {showTextBox && (
+          <div>
+            <form className="max-w-xl w-full" onSubmit={onSubmit}>
+              <div className="flex mt-10 items-center space-x-3">
+                <Image
+                  src="/1-black.png"
+                  width={30}
+                  height={30}
+                  alt="1 icon"
+                  className="mb-5 sm:mb-0"
+                />
+                <p className="text-left font-medium">
+                  {formDescription}
+                  {/* <span className="text-slate-500">
+                    (or write a few sentences about yourself)
+                  </span> */}
+                  .
+                </p>
+              </div>
+
+              <textarea
+                value={input}
+                onChange={handleInputChange}
+                rows={4}
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
+                placeholder={placeholder}
+              />
+              {/* <div className="flex mb-5 items-center space-x-3">
+                <Image src="/2-black.png" width={30} height={30} alt="1 icon" />
+                <p className="text-left font-medium">Select your vibe.</p>
+              </div>
+              <div className="block">
+                <DropDown vibe={vibe} setVibe={(newVibe) => setVibe(newVibe)} />
+              </div> */}
+
+              {!isLoading && (
+                <button
+                  className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
+                  type="submit"
                 >
-                  AI Response
-                </h2>
-              </div>
-              <div className="space-y-8 flex flex-col items-center justify-center max-w-xl mx-auto">
-                {generatedBios
-                  .substring(generatedBios.indexOf('1') + 3)
-                  .split('2.')
-                  .map((generatedBio) => {
-                    return (
-                      <div
-                        className="bg-white rounded-xl shadow-md p-4 hover:bg-gray-100 transition cursor-copy border"
-                        onClick={() => {
-                          navigator.clipboard.writeText(generatedBio);
-                          toast('Bio copied to clipboard', {
-                            icon: '✂️',
-                          });
-                        }}
-                        key={generatedBio}
-                      >
-                        <p>{generatedBio}</p>
-                      </div>
-                    );
-                  })}
-              </div>
-            </>
-          )}
-        </output>
-        </div>}
+                  Generate &rarr;
+                </button>
+              )}
+              {isLoading && (
+                <button
+                  className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
+                  disabled
+                >
+                  <span className="loading">
+                    <span style={{ backgroundColor: "white" }} />
+                    <span style={{ backgroundColor: "white" }} />
+                    <span style={{ backgroundColor: "white" }} />
+                  </span>
+                </button>
+              )}
+            </form>
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{ duration: 2000 }}
+            />
+            <hr className="h-px bg-gray-700 border-1 dark:bg-gray-700" />
+            <output className="space-y-10 my-10">
+              {generateduserInputs && (
+                <>
+                  <div>
+                    <h2
+                      className="sm:text-4xl text-3xl font-bold text-slate-900 mx-auto"
+                      ref={userInputRef}
+                    >
+                      AI Response
+                    </h2>
+                  </div>
+                  <div className="space-y-8 flex flex-col items-center justify-center max-w-xl mx-auto">
+                    {generateduserInputs
+                      .substring(generateduserInputs.indexOf("1") + 3)
+                      .split("2.")
+                      .map((generateduserInput) => {
+                        return (
+                          <div
+                            className="bg-white rounded-xl shadow-md p-4 hover:bg-gray-100 transition cursor-copy border"
+                            onClick={() => {
+                              navigator.clipboard.writeText(generateduserInput);
+                              toast("userInput copied to clipboard", {
+                                icon: "✂️",
+                              });
+                            }}
+                            key={generateduserInput}
+                          >
+                            <p>{generateduserInput}</p>
+                          </div>
+                        );
+                      })}
+                  </div>
+                </>
+              )}
+            </output>
+          </div>
+        )}
       </main>
       <Footer />
     </div>
