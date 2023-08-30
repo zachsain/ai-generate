@@ -11,9 +11,11 @@ import { useChat } from 'ai/react';
 
 export default function Page() {
   const [bio, setBio] = useState('');
-  const [vibe, setVibe] = useState<VibeType>('Professional');
+  const [vibe, setVibe] = useState<VibeType>('Professional')
+  const [content, setContent] = useState('');
   const bioRef = useRef<null | HTMLDivElement>(null);
   const [showTextBox, setShowTextBox] = useState<boolean>(false)
+  const [formDescription, setFormDescription] = useState("")
 
   const scrollToBios = () => {
     if (bioRef.current !== null) {
@@ -40,52 +42,64 @@ export default function Page() {
   const lastMessage = messages[messages.length - 1];
   const generatedBios = lastMessage?.role === "assistant" ? lastMessage.content : null;
 
+  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+    let formType = e.currentTarget.value
+    console.log(formType);
+    if (formType === "ig"){
+      setFormDescription("Write a few words about your instagram content...")
+    } else if (formType === "lyrics") {
+      setFormDescription("Write a few words about what your song is about")
+    } else {
+      setFormDescription("Write a few words about what your poem is about")
+    }
+  }
+
   return (
     <div className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
       <Header />
       <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4">
         <h1 className="sm:text-6xl text-4xl max-w-[708px] font-bold text-slate-900">
-          Use AI to help generate the follow: 
+         Use AI to help you with the following:
         </h1>
 
         <div className="flex mt-20">
         <div
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
+          className="group rounded-lg mr-4 border-2 px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
         >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Name your baby{" "}
+          <button value="ig" onClick={handleClick} className={`mb-3 text-2xl font-semibold`}>
+            Instagram Caption{" "}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
             </span>
-          </h2>
+          </button>
           <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Use our AI to help you come up with great baby names...
+            Use our AI to help you come up with a great Instagram caption
           </p>
         </div>
 
         <div
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+          className="group rounded-lg mr-4 border-2 px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
         >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Come up with title{" "}
+          <button value="lyrics" onClick={handleClick} className={`mb-3 text-2xl font-semibold`}>
+            Write song lyrics{" "}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
             </span>
-          </h2>
+          </button>
           <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Use our AI to help you come up with a great song name...
+            Use our AI to help write great song lyrics that captivate your fans
           </p>
         </div>
 
         <div
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+          className="group rounded-lg border-2 px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
         >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
+          <button value="Poems" onClick={handleClick} className={`mb-3 text-2xl font-semibold`}>
             Poems{" "}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
             </span>
-          </h2>
+          </button>
           <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
             Use our API to help you write the perfect poem for you...
           </p>
@@ -104,7 +118,7 @@ export default function Page() {
               className="mb-5 sm:mb-0"
             />
             <p className="text-left font-medium">
-              Copy your current bio{' '}
+              {formDescription}
               <span className="text-slate-500">
                 (or write a few sentences about yourself)
               </span>
@@ -118,7 +132,7 @@ export default function Page() {
             rows={4}
             className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
             placeholder={
-              'e.g. Senior Developer Advocate @vercel. Tweeting about web development, AI, and React / Next.js. Writing nutlope.substack.com.'
+              ''
             }
           />
           <div className="flex mb-5 items-center space-x-3">
@@ -134,7 +148,7 @@ export default function Page() {
               className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
               type="submit"
             >
-              Generate your bio &rarr;
+              Generate &rarr;
             </button>
           )}
           {isLoading && (
@@ -164,7 +178,7 @@ export default function Page() {
                   className="sm:text-4xl text-3xl font-bold text-slate-900 mx-auto"
                   ref={bioRef}
                 >
-                  Your generated bios
+                  AI Response
                 </h2>
               </div>
               <div className="space-y-8 flex flex-col items-center justify-center max-w-xl mx-auto">
