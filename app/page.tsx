@@ -13,6 +13,7 @@ export default function Page() {
   const [bio, setBio] = useState('');
   const [vibe, setVibe] = useState<VibeType>('Professional');
   const bioRef = useRef<null | HTMLDivElement>(null);
+  const [showTextBox, setShowTextBox] = useState<boolean>(false)
 
   const scrollToBios = () => {
     if (bioRef.current !== null) {
@@ -42,20 +43,57 @@ export default function Page() {
   return (
     <div className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
       <Header />
-      <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 mt-12 sm:mt-20">
-        <a
-          className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm text-gray-600 shadow-md transition-colors hover:bg-gray-100 mb-5"
-          href="https://github.com/Nutlope/twitterbio"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Github />
-          <p>Star on GitHub</p>
-        </a>
+      <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4">
         <h1 className="sm:text-6xl text-4xl max-w-[708px] font-bold text-slate-900">
-          Generate your next Twitter bio using chatGPT
+          Use AI to help generate the follow: 
         </h1>
-        <p className="text-slate-500 mt-5">47,118 bios generated so far.</p>
+
+        <div className="flex mt-20">
+        <div
+          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
+        >
+          <h2 className={`mb-3 text-2xl font-semibold`}>
+            Name your baby{" "}
+            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+              -&gt;
+            </span>
+          </h2>
+          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
+            Use our AI to help you come up with great baby names...
+          </p>
+        </div>
+
+        <div
+          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+        >
+          <h2 className={`mb-3 text-2xl font-semibold`}>
+            Come up with title{" "}
+            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+              -&gt;
+            </span>
+          </h2>
+          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
+            Use our AI to help you come up with a great song name...
+          </p>
+        </div>
+
+        <div
+          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+        >
+          <h2 className={`mb-3 text-2xl font-semibold`}>
+            Poems{" "}
+            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+              -&gt;
+            </span>
+          </h2>
+          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
+            Use our API to help you write the perfect poem for you...
+          </p>
+        </div>
+        </div>
+        
+        {showTextBox &&
+        <div>
         <form className="max-w-xl w-full" onSubmit={onSubmit}>
           <div className="flex mt-10 items-center space-x-3">
             <Image
@@ -73,6 +111,7 @@ export default function Page() {
               .
             </p>
           </div>
+
           <textarea
             value={input}
             onChange={handleInputChange}
@@ -152,6 +191,7 @@ export default function Page() {
             </>
           )}
         </output>
+        </div>}
       </main>
       <Footer />
     </div>
