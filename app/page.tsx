@@ -76,7 +76,7 @@ export default function Page() {
   return (
     <div className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
       {/* <div className="flex" onClick={() => setShowTextBox(false)}> */}
-      <Header />
+      <Header setShowTextBox={setShowTextBox} />
       {/* </div> */}
       <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4">
         {!showTextBox && (

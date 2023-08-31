@@ -15,7 +15,7 @@ export async function POST(req: Request) {
 
   const contentInput = 
     formType === 'ig'
-    ? `Genereate a great instagram post caption that is less than 100 characters and base the caption context of this description: ${bio}${
+    ? `Genereate a great instagram post caption that is no more than 200 characters and base the caption context of this description: ${bio}${
       bio.slice(-1) === '.' ? '' : '.'}`
     : formType === 'lyrics'
     ? `Generate song lyrics with 2 verses and 1 chorus. 
