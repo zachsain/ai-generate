@@ -22,8 +22,8 @@ export async function POST(req: Request) {
       Make sure the song lyrics rhyme and are less than 300 characters, and base the lyrics off this context: ${bio}${
       bio.slice(-1) === '.' ? '' : '.'}`
     : formType ===  'elevator' 
-    ? `Generate a short elevator pitch no more that 250 characters based off the following description:${bio}${
-      bio.slice(-1) === '.' ? '' : '.'}`
+    ? `Generate an elevator pitch no more that 280 characters based off the following description:${bio}${
+      bio.slice(-1) === '.' ? '' : '.'} make to include key points provided in the description`
     : ''
 
   const response = await openai.createChatCompletion({
