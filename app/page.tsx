@@ -74,6 +74,7 @@ export default function Page() {
     lastMessage?.role === "assistant" ? lastMessage.content : null;
 
   return (
+    
     <div className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
       {/* <div className="flex" onClick={() => setShowTextBox(false)}> */}
       <Header setShowTextBox={setShowTextBox} />
