@@ -11,23 +11,28 @@ const openai = new OpenAIApi(config);
 export const runtime = 'edge';
 
 export async function POST(req: Request) {
-  const { vibe, bio } = await req.json();
+  const { vibe, formType, bio } = await req.json();
 
-  // Ask OpenAI for a streaming completion given the prompt
+  const contentInput = 
+    formType === 'ig'
+    ? `Genereate a great instagram post caption that is less than 100 characters and base the caption context of this description: ${bio}${
+      bio.slice(-1) === '.' ? '' : '.'}`
+    : formType === 'lyrics'
+    ? `Generate song lyrics with 2 verses and 1 chorus. 
+      Make sure the song lyrics rhyme and are less than 300 characters, and base the lyrics off this context: ${bio}${
+      bio.slice(-1) === '.' ? '' : '.'}`
+    : formType ===  'elevator' 
+    ? `Generate a short elevator pitch no more that 250 characters based off the following description:${bio}${
+      bio.slice(-1) === '.' ? '' : '.'}`
+    : ''
+
   const response = await openai.createChatCompletion({
     model: 'gpt-3.5-turbo',
     stream: true,
     messages: [
       {
         role: 'user',
-        content: `Generate 2 ${vibe} twitter biographies with no hashtags and clearly labeled "1." and "2.". ${
-          vibe === 'Funny'
-            ? "Make sure there is a joke in there and it's a little ridiculous."
-            : null
-        }
-          Make sure each generated biography is less than 160 characters, has short sentences that are found in Twitter bios, and base them on this context: ${bio}${
-          bio.slice(-1) === '.' ? '' : '.'
-        }`,
+        content: `${contentInput}`
       },
     ],
   });
