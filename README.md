@@ -6,6 +6,9 @@ This project uses the [ChatGPT API](https://openai.com/api/) and the [Vercel AI 
 
 ## Running Locally
 
+```bash
+npm run dev
+```
 
 ```bash
 pnpm run dev
