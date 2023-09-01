@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     type: 'website',
   },
-  aiGenerate: {
+  twitter: {
     card: 'summary_large_image',
     title,
     description,
