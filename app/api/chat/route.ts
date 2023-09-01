@@ -19,7 +19,7 @@ export async function POST(req: Request) {
       bio.slice(-1) === '.' ? '' : '.'}`
     : formType === 'lyrics'
     ? `Generate song lyrics with 2 verses and 1 chorus. 
-      Make sure the song lyrics rhyme and are less than 300 characters, and base the lyrics off this context: ${bio}${
+      Make sure the song lyrics rhyme and are no more than 600 characters, and base the lyrics off this context: ${bio}${
       bio.slice(-1) === '.' ? '' : '.'}`
     : formType ===  'elevator' 
     ? `Generate an elevator pitch no more that 280 characters based off the following description:${bio}${

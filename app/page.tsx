@@ -29,24 +29,24 @@ export default function Page() {
     setFormType(type);
     if (type === "ig") {
       setFormDescription(
-        "Write a short description about your post, personality, and the caption style..."
+        "Write a short description about your instagram post, personality, and the caption style"
       );
       setPlaceHolder(
-        "A photo of me chilling in the pool on raft, drinking a beer, big smile on my face. Make the caption funny and clever"
+        "In this instagram post I'm standing on the beach, with the sunset in the background, smiling big, holding a beer. My personality is goofy, and my instagram style is witty."
       );
     } else if (type === "lyrics") {
       setFormDescription(
-        "Write a short description about your song, define your genre and style"
+        "Write a short description about what the song, define your songwriting style and include the genre"
       );
       setPlaceHolder(
-        "This song is about a how a breakup with a girl I truly loved. Genre is hip-hop. My style is like Drake"
+        "This song is about how I live in the country, but long to be living in the city chasing my dream of being a star. My songwriting style is from the heart, similar to Adele, and the genre is soulful pop"
       );
     } else if (type === "elevator") {
       setFormDescription(
-        "Write a short description about your business, profession or idea. Include details about personality, and the style of pitch"
+        "Write a short description about your business, profession or idea. Include details about personality, and the style of your pitch"
       );
       setPlaceHolder(
-        "I am software developer trying to network with other developers to build a market place app. I'm a laid back person. The style of my pitch should be captivating"
+        "I am software developer trying to network with other developers to build a market place app for bikes. I'm a laid back person. The style of my pitch should be insipiring."
       );
     }
     setShowTextBox(true);
